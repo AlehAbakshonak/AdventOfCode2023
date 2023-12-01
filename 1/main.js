@@ -1,4 +1,4 @@
-let session = "53616c7465645f5fe424aa703fcb5d223509adfb8faaebbfbe7812273d1ad567216803f954150a530aa64323789b18c4ef0fd90965d140d398b43a9e49cf2ea8";
+let session = "*YOUR COOKIE LOGIN SESSION AT https://adventofcode.com/2023/day/1/input*";
 let data = [];
 
 let numbers = [
@@ -27,6 +27,14 @@ function matchNumbersAtStrPos(str, pos) {
    return -1;
 }
 
+function parseText(text) {
+   text = text.split("\n");
+   text.pop();
+   for (const str of text) {
+      parseString(str);
+   }
+}
+
 function parseString(str) {
    let l = str.length;
    let firstMet = false;
@@ -51,13 +59,12 @@ function parseString(str) {
          continue;
       }
 
-      if (str[pos] < 10) {
+      if (char < 10) {
          assignVal(char);
       }
    }
    if (lastVal === '') lastVal = firstVal;
    data.push(parseInt(firstVal + '' + lastVal));
-   console.log(str, l, firstVal, lastVal, data.at(-1));
 }
 
 function getData() {
@@ -65,13 +72,7 @@ function getData() {
       headers: {Cookie: `session=${session}`},
    })
       .then(response => response.text())
-      .then(text => {
-         text = text.split("\n");
-         text.pop();
-         for (const str of text) {
-            parseString(str);
-         }
-      });
+      .then(text => parseText(text));
 }
 
 async function init() {
@@ -79,5 +80,4 @@ async function init() {
    console.log(data.reduce((a, b) => a + b, 0));
 }
 
-// noinspection JSIgnoredPromiseFromCall
 init();
