@@ -14,6 +14,7 @@ let numbers = [
 ]
 
 function matchNumbersAtStrPos(str, pos) {
+   if (pos >= str.length - 2) return -1;
    for (const number of numbers) {
       let equal = true;
       for (let i = 0; i < number.name.length; i++) {
@@ -29,7 +30,7 @@ function matchNumbersAtStrPos(str, pos) {
 
 function parseText(text) {
    text = text.split("\n");
-   text.pop();
+   if (text.at(-1).length === 0) text.pop();
    for (const str of text) {
       parseString(str);
    }
@@ -51,8 +52,7 @@ function parseString(str) {
       }
 
       let char = str[pos];
-      let stringNumber = -1;
-      if (pos < l - 2) stringNumber = matchNumbersAtStrPos(str, pos);
+      let stringNumber = matchNumbersAtStrPos(str, pos);
       if (stringNumber !== -1) {
          assignVal(stringNumber.value);
          pos += stringNumber.step - 1;
